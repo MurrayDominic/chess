@@ -168,6 +168,9 @@ class Knights(Piece):
             moves = []
             row, col = pos[0], pos[1]
 
+            if self.color == 'w':
+                return
+
 class Bishop(Piece):
         def get_valid_moves(self, pos, board):
             moves = []
