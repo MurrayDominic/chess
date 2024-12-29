@@ -1,9 +1,9 @@
 def create_board():
-    x = 9
-    y = 9
+    x = 8
+    y = 8
     board = {}
-    for i in range(1, x):
-        for j in range(1, y):
+    for i in range(1, x+1):
+        for j in range(1, y+1):
             square = (i, j)
             if j == 2:
                 board[square] = "wp"  # White pawns on row 2
@@ -80,85 +80,27 @@ class Pawn(Piece):
 
 class Rooks(Piece):
     def get_valid_moves(self, pos, board):
+        def tranverse_direction(delta_row, delta_col):
+            row, col = pos[0], pos[1]
+            while True:
+                row += delta_row
+                col += delta_col
+                if (row, col) not in board:
+                    break
+                if board[(row, col)] == 0:
+                    moves.append((row, col))
+                elif board[(row, col)][0] != self.color:
+                    moves.append((row, col))
+                    break
+                else:
+                    break
+
         moves = []
-        row, col = pos[0], pos[1]
 
-        if self.color == 'w':
-        # Move forward
-            for i in range(col+1, 9):
-                if board.get((row, i)) == 0:
-                    moves.append((row, i))
-                if (row, i) in board and str(board.get((row, i), ''))[0] == 'b':
-                    moves.append((row, i))
-                    break
-                if (row, i) in board and str(board.get((row, i), ''))[0] == 'w':
-                    break               
-        # Move backward
-            for i in range(col-1, 0, -1):
-                if board.get((row, i)) == 0:
-                    moves.append((row, i))
-                if (row, i) in board and str(board.get((row, i), ''))[0] == 'b':
-                    moves.append((row, i))
-                    break
-                if (row, i) in board and str(board.get((row, i), ''))[0] == 'w':
-                    break    
-        # Move right
-            for i in range(row+1, 9):
-                if board.get((i, col)) == 0:
-                    moves.append(( i, col))
-                if (i, col) in board and str(board.get((i, col), ''))[0] == 'b':
-                    moves.append((i, col))
-                    break
-                if (i, col) in board and str(board.get((i, col), ''))[0] == 'w':
-                    break               
-        # Move left
-            for i in range(row-1, 0, -1):
-                if board.get((i, col)) == 0:
-                    moves.append(( i, col))
-                if (i, col) in board and str(board.get((i, col), ''))[0] == 'b':
-                    moves.append((i, col))
-                    break
-                if (i, col) in board and str(board.get((i, col), ''))[0] == 'w':
-                    break   
-        
-        else:
-      # Move forward
-            for i in range(col+1, 9):
-                if board.get((row, i)) == 0:
-                    moves.append((row, i))
-                if (row, i) in board and str(board.get((row, i), ''))[0] == 'w':
-                    moves.append((row, i))
-                    break
-                if (row, i) in board and str(board.get((row, i), ''))[0] == 'b':
-                    break               
-        # Move backward
-            for i in range(col-1, 0, -1):
-                if board.get((row, i)) == 0:
-                    moves.append((row, i))
-                if (row, i) in board and str(board.get((row, i), ''))[0] == 'w':
-                    moves.append((row, i))
-                    break
-                if (row, i) in board and str(board.get((row, i), ''))[0] == 'b':
-                    break    
-        # Move right
-            for i in range(row+1, 9):
-                if board.get((i, col)) == 0:
-                    moves.append(( i, col))
-                if (i, col) in board and str(board.get((i, col), ''))[0] == 'w':
-                    moves.append((i, col))
-                    break
-                if (i, col) in board and str(board.get((i, col), ''))[0] == 'b':
-                    break               
-        # Move left
-            for i in range(row-1, 0, -1):
-                if board.get((i, col)) == 0:
-                    moves.append(( i, col))
-                if (i, col) in board and str(board.get((i, col), ''))[0] == 'w':
-                    moves.append((i, col))
-                    break
-                if (i, col) in board and str(board.get((i, col), ''))[0] == 'b':
-                    break   
-
+        tranverse_direction(1,0) # up
+        tranverse_direction(-1, 0) # down
+        tranverse_direction(0, 1) # right
+        tranverse_direction(0, -1) # left       
 
         return moves
 
@@ -198,3 +140,4 @@ moves = rook.get_valid_moves((4,4), board)
 
 print(board)
 print(moves)
+
