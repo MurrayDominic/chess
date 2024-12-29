@@ -142,18 +142,62 @@ class Knights(Piece):
 
         return moves
 
-
-
-
 class Bishop(Piece):
-        def get_valid_moves(self, pos, board):
-            moves = []
+    def get_valid_moves(self, pos, board):
+        def tranverse_direction(delta_row, delta_col):
             row, col = pos[0], pos[1]
+            while True:
+                row += delta_row
+                col += delta_col
+                if (row, col) not in board:
+                    break
+                if board[(row, col)] == 0:
+                    moves.append((row, col))
+                elif board[(row, col)][0] != self.color:
+                    moves.append((row, col))
+                    break
+                else:
+                    break
+
+        moves = []
+
+        tranverse_direction(1,1) # up right
+        tranverse_direction(-1, 1) # up left
+        tranverse_direction(1, -1) # down right
+        tranverse_direction(-1, -1) # down left       
+
+        return moves
 
 class Queen(Piece):
-        def get_valid_moves(self, pos, board):
-            moves = []
+    def get_valid_moves(self, pos, board):
+        def tranverse_direction(delta_row, delta_col):
             row, col = pos[0], pos[1]
+            while True:
+                row += delta_row
+                col += delta_col
+                if (row, col) not in board:
+                    break
+                if board[(row, col)] == 0:
+                    moves.append((row, col))
+                elif board[(row, col)][0] != self.color:
+                    moves.append((row, col))
+                    break
+                else:
+                    break
+
+        moves = []
+
+        tranverse_direction(1,0) # up
+        tranverse_direction(-1, 0) # down
+        tranverse_direction(0, 1) # right
+        tranverse_direction(0, -1) # left    
+
+        tranverse_direction(1,1) # up right
+        tranverse_direction(-1, 1) # up left
+        tranverse_direction(1, -1) # down right
+        tranverse_direction(-1, -1) # down left       
+
+        return moves
 
 class King(Piece):
         def get_valid_moves(self, pos, board):
@@ -170,7 +214,11 @@ rook = Rooks('w')
 
 knight = Knights('w')
 
-moves = knight.get_valid_moves((4,4), board)
+bishop = Bishop('w')
+
+queen = Queen('w')
+
+moves = queen.get_valid_moves((4,4), board)
 
 print(board)
 print(moves)
