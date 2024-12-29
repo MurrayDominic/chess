@@ -204,6 +204,25 @@ class King(Piece):
             moves = []
             row, col = pos[0], pos[1]
 
+            directions = [
+                (1,0),
+                (-1,0),
+                (0,1),
+                (0,-1),
+                (1,1),
+                (1,-1),
+                (-1,1),
+                (-1,-1)
+            ]
+
+            for delta_row, delta_col in directions:
+                new_row, new_col = row + delta_row, col + delta_col
+                if (new_row, new_col) in board:
+                    if board[(new_row, new_col)] == 0 or board[(new_row, new_col)] != self.color:
+                        moves.append((new_row, new_col))
+            
+            return moves
+
 
 
 board = create_board()
@@ -218,7 +237,9 @@ bishop = Bishop('w')
 
 queen = Queen('w')
 
-moves = queen.get_valid_moves((4,4), board)
+king = King('w')
+
+moves = king.get_valid_moves((4,4), board)
 
 print(board)
 print(moves)
