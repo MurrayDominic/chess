@@ -106,12 +106,44 @@ class Rooks(Piece):
 
 
 class Knights(Piece):
-        def get_valid_moves(self, pos, board):
-            moves = []
+    def get_valid_moves(self, pos, board):
+        def test_potential_moves(delta_row, delta_col):
+                
             row, col = pos[0], pos[1]
 
-            if self.color == 'w':
+
+            row += delta_row
+            col += delta_col 
+            if (row, col) not in board:
                 return
+            if board[(row, col)] == 0:
+                moves.append((row, col))
+                return
+            elif board[(row, col)][0] != self.color:
+                moves.append((row, col))
+                return
+            else:
+                return  
+
+        moves = []
+
+        test_potential_moves(2,1) # up right
+        test_potential_moves(2,-1) # up left
+
+        test_potential_moves(-2,1) # down right
+        test_potential_moves(-2,-1) # down left
+
+        test_potential_moves(1,2) # right up
+        test_potential_moves(1,-2) # right down
+
+        test_potential_moves(-1,2) # left up
+        test_potential_moves(-1,-2) # left down
+             
+
+        return moves
+
+
+
 
 class Bishop(Piece):
         def get_valid_moves(self, pos, board):
@@ -136,7 +168,9 @@ board = create_board()
 
 rook = Rooks('w')
 
-moves = rook.get_valid_moves((4,4), board)
+knight = Knights('w')
+
+moves = knight.get_valid_moves((4,4), board)
 
 print(board)
 print(moves)
